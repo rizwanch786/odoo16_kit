@@ -21,6 +21,7 @@ class GitHubWebhook(http.Controller):
 
         elif request.httprequest.method == 'GET':
             # Your existing GET handling logic here (if needed)
+            self._pull_changes()
             return http.Response('GET request received', status=200)
 
     def _verify_signature(self, payload, secret, signature):
