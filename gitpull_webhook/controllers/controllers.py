@@ -6,7 +6,7 @@ import hashlib
 
 
 class GitHubWebhook(http.Controller):
-    @http.route('/test-webhook', type='http', auth='none', methods=['POST'], csrf=False)
+    @http.route('/webhook-endpoint', type='http', auth='none', methods=['POST'], csrf=False)
     def handle_webhook(self, **post):
         if request.httprequest.method == 'POST':
             secret_token = 'a36c62b04d6ffcb7dc8d628fee26e33694e8684c'
