@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "gitpull_webhook",
+    'name': "crowe_reports",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -10,7 +10,7 @@
         Long description of module's purpose
     """,
 
-    'author': "My Company",
+    'author': "M.Rizwan",
     'website': "https://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
@@ -20,16 +20,17 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'hr_payroll', 'payroll_customization'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
+        'report/salary_slip_template.xml',
+        'report/report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
     ],
 }

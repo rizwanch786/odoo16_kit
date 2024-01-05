@@ -1,0 +1,399 @@
+<odoo>
+    <data>
+        <template id="report_payslip_lang_custom" inherit_id="hr_payroll.report_payslip_lang">
+            <xpath expr='//t[@t-call="web.html_container"]' position='replace'>
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <!--                    <t t-set="o"-->
+                        <!--                       t-value="o.with_context(lang=o.employee_id.sudo().address_home_id.lang or o.env.lang)"/>-->
+                        <t t-call="hr_payroll.report_payslip" t-lang="o.env.lang"/>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+        <template id="report_payslip_template" inherit_id="hr_payroll.report_payslip">
+            <xpath expr='//t[@t-call="web.external_layout"]' position='replace'>
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="line-height:1;">
+                            <style>
+                                .table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                line-height: 1;
+                                padding: 0px;
+                                margin: 0px;
+                                }
+                                .table th,
+                                .table td {
+                                text-align: left;
+                                }
+
+                            </style>
+                            <div class="row" style="page-break-inside:avoid;">
+                                <div class="col-4">
+                                    <img src="/crowe_reports/static/description/logo.png" width="100%"/>
+                                </div>
+                                <div class="col-4 text-center times"/>
+                                <div class="col-4"/>
+                            </div>
+                            <br/>
+                            <br/>
+                            <table class="table table-sm table-borderless" width="100%"
+                                   style="padding:0px; margin:0px; line-height:1;">
+                                <tr>
+                                    <th style="text-align:left;" width="28%">
+                                        Salary Slip for the Month of:
+                                    </th>
+                                    <td style="text-align:left;">
+                                        <t t-if="o.date_from">
+                                            <span t-esc="o.get_header_month(o.date_from)"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table class="table table-sm table-borderless" width="100%"
+                                   style="padding:0px; margin:0px; line-height:1;">
+                                <tr>
+                                    <th style="text-align:left;" width="18%">
+                                        Employee Name:
+                                    </th>
+                                    <td style="text-align:left;">
+                                        <span t-esc="o.employee_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:left;">
+                                        Unique ID:
+                                    </th>
+                                    <td style="text-align:left;">
+                                        <span t-esc="o.employee_id.emp_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:left;">
+                                        Designation:
+                                    </th>
+                                    <td style="text-align:left;">
+                                        <span t-esc="o.employee_id.job_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="text-align:left;">
+                                        Department:
+                                    </th>
+                                    <td style="text-align:left;">
+                                        <span t-esc="o.employee_id.department_id.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table class="table table-sm table-borderless" width="100%"
+                                   style="padding:0px; margin:0px; line-height:1;">
+                                <tr>
+                                    <td width="47%"
+                                        style=" font-size: 18px;">
+                                        <table class="table table-sm table-borderless" width="100%"
+                                               style="padding:0px; margin:0px; line-height:1; border: 1px solid black; background-color: lightgray;">
+                                            <tr>
+                                                <td>
+                                                    <strong>
+                                                        EARNINGS
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="6%"/>
+                                    <td width="47%"
+                                        style=" font-size: 18px;">
+                                        <table class="table table-sm table-borderless" width="100%"
+                                               style="padding:0px; margin:0px; line-height:1; border: 1px solid black; background-color: lightgray;">
+                                            <tr>
+                                                <td>
+                                                    <strong>
+                                                        DEDUCTIONS
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table class="table table-sm table-borderless" width="100%"
+                                   style="padding:0px; margin:0px; line-height:1;">
+                                <tr>
+                                    <td width="47%"
+                                        style="">
+                                        <table class="table table-sm table-borderless" width="100%"
+                                               style="padding:0px; margin:0px; line-height:1; border: 1px solid black;">
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;" width="50%">
+                                                    Basic Salary
+                                                </td>
+                                                <td style="text-align:right;" width="50%">
+                                                    <span t-esc="(o.get_basic())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    House Rent
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_house_rent())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Utilities Allowance
+                                                </td>
+                                                <td style="text-align:right;">
+                                                    <span t-esc="(o.get_utilities_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Recognition Bonus
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_recognition_bonus())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Leave Encashment
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_leave_encashment())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Phone Allowance
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_phone_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Internet Allowance
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_internet_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Car Allowance
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_car_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Driver Allowance
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_driver_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    LFA
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_lfa())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Other Allowance
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_other_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Performance Bonus
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_performance_bonus())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Relocate Allowance
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_relocate_allowance())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    Arrears
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_arrears())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue; border-top:1px solid black;">
+                                                    Total Earnings
+                                                </td>
+                                                <td style="text-align:right; border-top:1px solid black;"/>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="6%"/>
+                                    <td width="47%"
+                                        style="">
+                                        <table class="table table-sm table-borderless" width="100%"
+                                               style="padding:0px; margin:0px; line-height:1; border: 1px solid black;">
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;" width="50%">
+                                                    Provident Fund
+                                                </td>
+                                                <td style="text-align:right;" width="50%">
+                                                    <span t-esc="(o.get_pf())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    Income Tax
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_income_tax())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    Professional Tax
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_professional_tax())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    EOBI
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_eobi())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    PF Arrears
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_pa_arrears())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    PF Loan
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_pf_loan())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    Membership Rec
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_membership_rec())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    Salary Deduction
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="(o.get_salary_deduction())"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left; background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;background-color:lightblue;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    <br/>
+                                                </td>
+                                                <td style="text-align:right"/>
+                                            </tr>
+
+                                            <tr style="border:1px; solid black;">
+                                                <td style="text-align:left; background-color:lightblue; border-top:1px solid black;"
+                                                    width="50%">
+                                                    Total Deductions
+                                                </td>
+                                                <td width="50%" style="text-align:right; border-top:1px solid black;"/>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>
